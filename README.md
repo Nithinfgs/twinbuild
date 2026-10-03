@@ -35,6 +35,13 @@ It works with any build command in any language, because it only looks at the fi
 npx github:Nithinfgs/twinbuild -- npm run build
 ```
 
+Or install it once (the demo images above use the short `twinbuild` command):
+
+```bash
+npm install -g github:Nithinfgs/twinbuild
+twinbuild -- npm run build
+```
+
 Anything after `--` is your build command: `make`, `cargo build --release`, `go build ./...`, `npm pack`, `python -m build`, `./gradlew assemble`, ...
 
 Try it on the bundled demos first:
