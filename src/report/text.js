@@ -27,7 +27,7 @@ const trunc = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
 
 /**
  * @param {Result} r
- * @param {{ color?: boolean, maxFiles?: number, verbose?: boolean }} [o]
+ * @param {{ color?: boolean, maxFiles?: number, brief?: boolean }} [o]
  */
 export function renderText(r, o = {}) {
   const c = palette(o.color ?? false);
@@ -75,6 +75,7 @@ export function renderText(r, o = {}) {
   for (const f of badFiles.slice(0, maxFiles)) {
     const ids = [...new Set(f.causes.map((x) => x.id))].join(', ');
     L.push(`  ${c.bold(f.pathB ? `${f.path} ~ ${f.pathB}` : f.path)}  ${c.dim(ids)}`);
+    if (o.brief) continue;
     for (const cause of f.causes) {
       const sample = cause.samples[0];
       if (!sample) continue;
@@ -91,6 +92,7 @@ export function renderText(r, o = {}) {
     );
   }
   L.push('');
+  if (o.brief) return L.join('\n');
   L.push(c.bold('  How to fix'));
   for (const t of r.causes) {
     L.push(`  ${c.yellow('•')} ${c.bold(t.title)}`);

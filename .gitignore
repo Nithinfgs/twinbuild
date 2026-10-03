@@ -5,3 +5,5 @@ coverage/
 .twinbuild/
 examples/*/dist/
 twinbuild-report.html
+
+/examples/c-timestamp/app

@@ -107,3 +107,22 @@ test('corrupt archive falls back to byte analysis instead of throwing', () => {
   const r = explainFile('x.zip', Buffer.from('not a zip A'), Buffer.from('not a zip B'), ctx);
   assert.deepEqual(ids(r), ['unexplained']);
 });
+
+test('detects C __DATE__/__TIME__ style stamps', () => {
+  const a = buf('built Oct  3 2026 05:17:45 main.c');
+  const b = buf('built Oct  2 2026 22:17:46 main.c');
+  const [c] = explainBytes(a, b, ctx);
+  assert.equal(c.id, 'timestamp');
+  assert.equal(c.count, 2);
+});
+
+test('binary with known causes reports a derived checksum instead of "unexplained"', () => {
+  const a = Buffer.concat([buf('t=2026-01-01T00:00:03Z\0'), Buffer.from([1, 2, 3, 4])]);
+  const b = Buffer.concat([buf('t=2026-01-01T00:00:09Z\0'), Buffer.from([9, 8, 7, 6])]);
+  assert.deepEqual(ids(explainBytes(a, b, ctx)), ['derived-checksum', 'timestamp']);
+});
+
+test('overlapping matches (ISO date contains a clock) are counted once', () => {
+  const [c] = explainBytes(buf('2026-01-01T00:00:03Z'), buf('2026-01-01T00:00:09Z'), ctx);
+  assert.equal(c.count, 1);
+});
