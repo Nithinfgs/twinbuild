@@ -22,6 +22,8 @@ Options
   --tz <zone>             Time zone for build B (default America/Los_Angeles, 'same' to disable).
   --source-date-epoch     Set SOURCE_DATE_EPOCH to the same value in both builds.
   --timeout <seconds>     Kill a build after this long (default 900).
+  --max-files <n>         Show details for at most <n> differing files (default 12).
+  --brief                 Only print the verdict, causes and affected files.
   --json                  Print the full result as JSON.
   --html <file>           Also write a standalone HTML report.
   --show-build-output     Stream build output to stderr.
@@ -55,6 +57,8 @@ export async function main(argv) {
         tz: { type: 'string' },
         'source-date-epoch': { type: 'boolean' },
         timeout: { type: 'string' },
+        'max-files': { type: 'string' },
+        brief: { type: 'boolean' },
         json: { type: 'boolean' },
         html: { type: 'string' },
         'show-build-output': { type: 'boolean' },
@@ -92,7 +96,10 @@ export async function main(argv) {
     process.stderr.write('twinbuild: --timeout must be a positive number of seconds\n');
     return 2;
   }
-  const color = !v['no-color'] && !process.env.NO_COLOR && Boolean(process.stdout.isTTY);
+  const color =
+    !v['no-color'] &&
+    !process.env.NO_COLOR &&
+    Boolean(process.stdout.isTTY || process.env.FORCE_COLOR);
   const quiet = Boolean(v.json);
 
   try {
@@ -110,7 +117,14 @@ export async function main(argv) {
     });
     if (v.html) fs.writeFileSync(/** @type {string} */ (v.html), renderHtml(result));
     if (v.json) process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
-    else process.stdout.write(renderText(result, { color }));
+    else
+      process.stdout.write(
+        renderText(result, {
+          color,
+          brief: Boolean(v.brief),
+          maxFiles: v['max-files'] ? Number(v['max-files']) : undefined,
+        }),
+      );
     if (result.kept) process.stderr.write(`twinbuild: workspaces kept in ${result.kept}\n`);
     return result.reproducible ? 0 : 1;
   } catch (err) {

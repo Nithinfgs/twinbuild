@@ -16,6 +16,8 @@ const ISO = /\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:?\d\d)?/g;
 const ISO_SPACE = /\d{4}-\d\d-\d\d \d\d:\d\d:\d\d(?:\.\d+)?/g;
 const HTTP_DATE =
   /\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),? (?:\w{3} \d{1,2}|\d{1,2} \w{3}) \d{4} \d\d:\d\d:\d\d/g;
+const C_DATE = /\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [ 1-3]\d \d{4}\b/g;
+const CLOCK = /\b[0-2]\d:[0-5]\d:[0-5]\d\b/g;
 const UUID = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi;
 const HEX_ID = /\b[0-9a-f]{12,}\b/gi;
 
@@ -27,6 +29,22 @@ const HEX_ID = /\b[0-9a-f]{12,}\b/gi;
 function findAll(s, re) {
   const out = [];
   for (const m of s.matchAll(re)) out.push({ text: m[0], index: m.index ?? 0 });
+  return out;
+}
+
+/**
+ * Sort tokens by position and drop any that overlap an earlier (or longer) one.
+ * @param {{ text: string, index: number }[]} tokens
+ */
+function noOverlap(tokens) {
+  const sorted = [...tokens].sort((x, y) => x.index - y.index || y.text.length - x.text.length);
+  const out = [];
+  let end = -1;
+  for (const t of sorted) {
+    if (t.index < end) continue;
+    out.push(t);
+    end = t.index + t.text.length;
+  }
   return out;
 }
 
@@ -152,15 +170,26 @@ export function explainBytes(bufA, bufB, ctx, label = '') {
 
   // 2. timestamps
   {
-    const find = (/** @type {string} */ s, /** @type {{startedAt:number,endedAt:number}} */ run) =>
-      [
-        ...findAll(s, ISO),
-        ...findAll(s, ISO_SPACE),
-        ...findAll(s, HTTP_DATE),
-        ...findAll(s, /\b1\d{12}\b/g).filter((m) => inWindow(Number(m.text), run, 1)),
-        ...findAll(s, /\b1\d{9}\b/g).filter((m) => inWindow(Number(m.text), run, 1000)),
-      ].sort((x, y) => x.index - y.index);
-    const r = applyTokens(A, B, find(A, ctx.runA), find(B, ctx.runB), '<TIME>', where);
+    const find = (
+      /** @type {string} */ s,
+      /** @type {{startedAt:number,endedAt:number}} */ run,
+    ) => [
+      ...findAll(s, ISO),
+      ...findAll(s, ISO_SPACE),
+      ...findAll(s, HTTP_DATE),
+      ...findAll(s, C_DATE),
+      ...findAll(s, CLOCK),
+      ...findAll(s, /\b1\d{12}\b/g).filter((m) => inWindow(Number(m.text), run, 1)),
+      ...findAll(s, /\b1\d{9}\b/g).filter((m) => inWindow(Number(m.text), run, 1000)),
+    ];
+    const r = applyTokens(
+      A,
+      B,
+      noOverlap(find(A, ctx.runA)),
+      noOverlap(find(B, ctx.runB)),
+      '<TIME>',
+      where,
+    );
     if (r.cause) push('timestamp', r.cause);
     A = r.A;
     B = r.B;
@@ -170,7 +199,7 @@ export function explainBytes(bufA, bufB, ctx, label = '') {
   // 3. random / unstable ids
   {
     const find = (/** @type {string} */ s) =>
-      [...findAll(s, UUID), ...findAll(s, HEX_ID)].sort((x, y) => x.index - y.index);
+      noOverlap([...findAll(s, UUID), ...findAll(s, HEX_ID)]);
     const r = applyTokens(A, B, find(A), find(B), '<ID>', where);
     if (r.cause) push('random-id', r.cause);
     A = r.A;
@@ -189,6 +218,12 @@ export function explainBytes(bufA, bufB, ctx, label = '') {
   }
 
   const d = firstDiff(A, B);
+  if (causes.length > 0 && A.includes('\0')) {
+    // Binary that already differs for known reasons: remaining bytes are almost always
+    // checksums over that content (Mach-O code signature, ELF build-id, PE checksum).
+    causes.push({ id: 'derived-checksum', count: 1, samples: [{ where, a: d.a, b: d.b }] });
+    return causes;
+  }
   causes.push({ id: 'unexplained', count: 1, samples: [{ where, a: d.a, b: d.b }] });
   return causes;
 }

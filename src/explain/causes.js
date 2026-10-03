@@ -1,7 +1,7 @@
 /**
  * Catalogue of non-determinism causes, with fix hints.
  * @typedef {'build-path'|'timestamp'|'random-id'|'ordering'|'archive-mtime'|'archive-order'|
- *   'archive-owner'|'archive-mode'|'gzip-header'|'hashed-filename'|'missing-file'|'unexplained'} CauseId
+ *   'archive-owner'|'archive-mode'|'gzip-header'|'hashed-filename'|'derived-checksum'|'missing-file'|'unexplained'} CauseId
  */
 
 /** @type {Record<CauseId, { title: string, fix: string }>} */
@@ -45,6 +45,10 @@ export const CAUSES = {
   'hashed-filename': {
     title: 'Content-hash in filename differs',
     fix: 'The hash is a symptom: fix the content that differs in the same build (see other causes) and the filename will stabilise.',
+  },
+  'derived-checksum': {
+    title: 'Checksum derived from other differences',
+    fix: 'A symptom, not a root cause (Mach-O code signature, ELF build-id, PE checksum). Fix the other causes reported for this file first and it will disappear.',
   },
   'missing-file': {
     title: 'File produced in only one build',

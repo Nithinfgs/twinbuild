@@ -123,3 +123,12 @@ test('example projects behave as documented', () => {
   }
   assert.equal(run(path.join(root, 'fixed-app'), npm).status, 0);
 });
+
+test('real C toolchain: __DATE__/__TIME__ is attributed (skipped without cc/make)', (t) => {
+  const have = (c) => spawnSync(c, ['--version'], { encoding: 'utf8' }).status === 0;
+  if (!have('cc') || !have('make')) return t.skip('cc or make not available');
+  const dir = path.resolve(path.dirname(bin), '..', 'examples', 'c-timestamp');
+  const r = run(dir, ['--json', '--', 'make']);
+  assert.equal(r.status, 1, r.stderr);
+  assert.ok(JSON.parse(r.stdout).causes.some((c) => c.id === 'timestamp'));
+});
