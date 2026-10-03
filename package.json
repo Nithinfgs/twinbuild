@@ -1,0 +1,38 @@
+{
+  "name": "twinbuild",
+  "version": "0.1.0",
+  "description": "Build your project twice in clean copies and find out why the outputs differ: timestamps, absolute paths, random IDs, ordering. Zero dependencies.",
+  "type": "module",
+  "bin": { "twinbuild": "bin/twinbuild.js" },
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js" },
+  "files": ["bin", "src", "README.md", "LICENSE", "CHANGELOG.md"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "demo": "node scripts/make-demo.js"
+  },
+  "keywords": [
+    "reproducible-builds",
+    "build",
+    "cache",
+    "determinism",
+    "supply-chain",
+    "cli",
+    "devtools"
+  ],
+  "author": "Nithinfgs",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/Nithinfgs/twinbuild.git" },
+  "bugs": { "url": "https://github.com/Nithinfgs/twinbuild/issues" },
+  "homepage": "https://github.com/Nithinfgs/twinbuild#readme",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
