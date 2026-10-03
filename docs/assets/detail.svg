@@ -3,7 +3,7 @@
 <rect width="1021" height="644" rx="10" fill="#0d1117"/>
 <circle cx="22" cy="18" r="6" fill="#ff5f56"/><circle cx="42" cy="18" r="6" fill="#ffbd2e"/><circle cx="62" cy="18" r="6" fill="#27c93f"/>
 <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace" font-size="14" fill="#c9d1d9">
-<text x="24" y="52" xml:space="preserve"><tspan fill="#3fb950">$</tspan><tspan> </tspan><tspan font-weight="700">npx twinbuild -- npm run build</tspan></text>
+<text x="24" y="52" xml:space="preserve"><tspan fill="#3fb950">$</tspan><tspan> </tspan><tspan font-weight="700">twinbuild -- npm run build</tspan></text>
 <text x="24" y="72" xml:space="preserve"><tspan>  </tspan><tspan fill="#8b949e">build A</tspan><tspan>  </tspan><tspan fill="#3fb950">✓</tspan><tspan> 0.2s</tspan></text>
 <text x="24" y="92" xml:space="preserve"><tspan>  </tspan><tspan fill="#8b949e">build B</tspan><tspan>  </tspan><tspan fill="#3fb950">✓</tspan><tspan> 0.2s  </tspan><tspan fill="#8b949e">different path, +1s clock, TZ=America/Los_Angeles</tspan></text>
 <text x="24" y="112" xml:space="preserve"> </text>
@@ -18,19 +18,19 @@
 <text x="24" y="292" xml:space="preserve"><tspan>  Archive entry order differs                   1</tspan></text>
 <text x="24" y="312" xml:space="preserve"><tspan>  File mtimes stored in archive                 1</tspan></text>
 <text x="24" y="332" xml:space="preserve"> </text>
-<text x="24" y="352" xml:space="preserve"><tspan>  </tspan><tspan font-weight="700">dist/app.c1b253aca4.js ~ dist/app.3dc86a8349.js</tspan><tspan>  </tspan><tspan fill="#8b949e">hashed-filename, build-path, timestamp, random-id</tspan></text>
+<text x="24" y="352" xml:space="preserve"><tspan>  </tspan><tspan font-weight="700">dist/app.31b83b4de8.js ~ dist/app.89d60b2703.js</tspan><tspan>  </tspan><tspan fill="#8b949e">hashed-filename, build-path, timestamp, random-id</tspan></text>
 <text x="24" y="372" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Content-hash in filename differs</tspan></text>
-<text x="24" y="392" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">dist/app.c1b253aca4.js</tspan></text>
-<text x="24" y="412" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">dist/app.3dc86a8349.js</tspan></text>
-<text x="24" y="432" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Absolute build path embedded</tspan><tspan fill="#8b949e"> (dist/app.c1b253aca4.js line 1)</tspan></text>
-<text x="24" y="452" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">…, built 2026-10-03T05:20:15.160Z in $TMP/twinbuild-XXXX/a/leaky-app */⏎window.__BUILD_ID__ = "…</tspan></text>
-<text x="24" y="472" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">…, built 2026-10-03T05:20:16.435Z in $TMP/twinbuild-XXXX/build-b-longer-prefix/leaky-app */⏎win…</tspan></text>
-<text x="24" y="492" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Build timestamp embedded</tspan><tspan fill="#8b949e"> (dist/app.c1b253aca4.js line 1)</tspan></text>
-<text x="24" y="512" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">/* leaky-app 1.0.0, built 2026-10-03T05:20:15.160Z in &lt;ROOT&gt; */⏎window.__BUILD_ID__ =…</tspan></text>
-<text x="24" y="532" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">/* leaky-app 1.0.0, built 2026-10-03T05:20:16.435Z in &lt;ROOT&gt; */⏎window.__BUILD_ID__ =…</tspan></text>
-<text x="24" y="552" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Random or unstable identifier</tspan><tspan fill="#8b949e"> (dist/app.c1b253aca4.js line 2)</tspan></text>
-<text x="24" y="572" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">…in &lt;ROOT&gt; */⏎window.__BUILD_ID__ = "27bcc2a5-f2f5-4685-ac07-36f3bbb884ed";⏎export const footer…</tspan></text>
-<text x="24" y="592" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">…in &lt;ROOT&gt; */⏎window.__BUILD_ID__ = "17a27051-b692-441c-a2c9-80bcf79aedb6";⏎export const footer…</tspan></text>
+<text x="24" y="392" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">dist/app.31b83b4de8.js</tspan></text>
+<text x="24" y="412" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">dist/app.89d60b2703.js</tspan></text>
+<text x="24" y="432" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Absolute build path embedded</tspan><tspan fill="#8b949e"> (dist/app.31b83b4de8.js line 1)</tspan></text>
+<text x="24" y="452" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">…, built 2026-10-03T05:23:57.281Z in $TMP/twinbuild-XXXX/a/leaky-app */⏎window.__BUILD_ID__ = "…</tspan></text>
+<text x="24" y="472" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">…, built 2026-10-03T05:23:58.559Z in $TMP/twinbuild-XXXX/build-b-longer-prefix/leaky-app */⏎win…</tspan></text>
+<text x="24" y="492" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Build timestamp embedded</tspan><tspan fill="#8b949e"> (dist/app.31b83b4de8.js line 1)</tspan></text>
+<text x="24" y="512" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">/* leaky-app 1.0.0, built 2026-10-03T05:23:57.281Z in &lt;ROOT&gt; */⏎window.__BUILD_ID__ =…</tspan></text>
+<text x="24" y="532" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">/* leaky-app 1.0.0, built 2026-10-03T05:23:58.559Z in &lt;ROOT&gt; */⏎window.__BUILD_ID__ =…</tspan></text>
+<text x="24" y="552" xml:space="preserve"><tspan>    </tspan><tspan fill="#e3b341">•</tspan><tspan> Random or unstable identifier</tspan><tspan fill="#8b949e"> (dist/app.31b83b4de8.js line 2)</tspan></text>
+<text x="24" y="572" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">A</tspan><tspan> </tspan><tspan fill="#79c0ff">…in &lt;ROOT&gt; */⏎window.__BUILD_ID__ = "2d2d6864-f71d-45d7-9fd8-53685e344773";⏎export const footer…</tspan></text>
+<text x="24" y="592" xml:space="preserve"><tspan>        </tspan><tspan fill="#8b949e">B</tspan><tspan> </tspan><tspan fill="#79c0ff">…in &lt;ROOT&gt; */⏎window.__BUILD_ID__ = "d84dd958-15fb-4516-87c4-4d5b71c64eb4";⏎export const footer…</tspan></text>
 <text x="24" y="612" xml:space="preserve"><tspan fill="#8b949e">  … and 2 more (use --json or --html for the full list)</tspan></text>
 </g>
 </svg>

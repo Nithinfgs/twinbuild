@@ -93,16 +93,16 @@ function runIn(example, args) {
 
 const hero = [
   prompt('cd examples/leaky-app'),
-  prompt('npx twinbuild --brief -- npm run build'),
+  prompt('twinbuild --brief -- npm run build'),
   ...runIn('leaky-app', ['--brief', '--', 'npm', 'run', 'build']).slice(0),
   '',
   prompt('cd ../fixed-app   # same project after fixing those causes'),
-  prompt('npx twinbuild --brief -- npm run build'),
+  prompt('twinbuild --brief -- npm run build'),
   ...runIn('fixed-app', ['--brief', '--', 'npm', 'run', 'build']),
 ];
 
 const detail = [
-  prompt('npx twinbuild -- npm run build'),
+  prompt('twinbuild -- npm run build'),
   ...runIn('leaky-app', ['--max-files', '1', '--', 'npm', 'run', 'build'])
     .join('\n')
     .split('\n  How to fix')[0]
